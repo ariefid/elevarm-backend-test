@@ -1,0 +1,230 @@
+{
+    "info": {
+        "name": "ELEVARM",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "BACKEND-TEST",
+            "item": [
+                {
+                    "name": "User",
+                    "item": [
+                        {
+                            "name": "Login",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/auth/login",
+                                    "path": [
+                                        "api",
+                                        "auth",
+                                        "login"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"username\": \"ariefid\",\n  \"pin\": \"123456\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Register",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/auth/register",
+                                    "path": [
+                                        "api",
+                                        "auth",
+                                        "register"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"username\": \"ariefid\",\n  \"pin\": \"123456\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Me",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/auth/me",
+                                    "path": [
+                                        "api",
+                                        "auth",
+                                        "me"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{JWT}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "GoRide",
+                    "item": [
+                        {
+                            "name": "GetAll",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/goride",
+                                    "path": [
+                                        "api",
+                                        "goride"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{JWT}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/goride/create",
+                                    "path": [
+                                        "api",
+                                        "goride",
+                                        "create"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"pickUpLocation\": \"-7.302260,112.739041\",\n  \"toLocation\": \"-7.297260,112.738375\",\n  \"price\": 20000\n}"
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{JWT}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Edit",
+                            "request": {
+                                "method": "PUT",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/goride/edit/:id",
+                                    "path": [
+                                        "api",
+                                        "goride",
+                                        "edit",
+                                        ":id"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"pickUpLocation\": \"-7.302260,112.739041\",\n  \"toLocation\": \"-7.297260,112.738375\",\n  \"price\": 30000\n}"
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{JWT}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete",
+                            "request": {
+                                "method": "DELETE",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/goride/delete/:id",
+                                    "path": [
+                                        "api",
+                                        "goride",
+                                        "delete",
+                                        ":id"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{JWT}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
