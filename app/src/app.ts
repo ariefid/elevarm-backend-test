@@ -9,6 +9,7 @@ import { PORT } from './config';
 import mongoDBConfig from './config/mongodb.mikro-orm.config';
 import logger from './lib/logger';
 import AuthController from './controllers/auth.controller';
+import GorideController from './controllers/goride.controller';
 
 export const AppContext = {} as {
     orm: MikroORM<MongoDriver>;
@@ -27,6 +28,7 @@ export const AppContext = {} as {
 const routingControllersOptions = {
     controllers: [
         AuthController,
+        GorideController,
     ],
     routePrefix: '/api',
 };
