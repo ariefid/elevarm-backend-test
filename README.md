@@ -75,3 +75,9 @@ Dibawah ini merupakan Tech Stack yang saya gunakan:
     ```sh
     $ pnpm dev
     ```
+    
+### Catatan
+
+1. API Documentation ada di repository.
+   - collection-postman.json
+2. .env akan dikirim bersama dengan email
