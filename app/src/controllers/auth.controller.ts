@@ -1,12 +1,14 @@
 import { Response } from 'express';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
-import { Body, JsonController, Post, Res } from 'routing-controllers';
+import { Body, Get, JsonController, Post, Req, Res, UseBefore } from 'routing-controllers';
+import { ObjectId } from '@mikro-orm/mongodb';
 import { AppContext } from '../app';
 import { User } from '../entities/User';
 import { createToken } from '../lib/jwt';
 import { hash, compare } from '../lib/hash';
-import { ObjectId } from '@mikro-orm/mongodb';
+import { UserInRequest } from '../interfaces/auth.interface';
+import { authMiddleware } from '../middlewares/auth.middleware';
 
 class AccountDto {
     @JSONSchema({
@@ -14,6 +16,7 @@ class AccountDto {
         example: 'customer',
     })
     @IsNotEmpty()
+    @IsString()
     username!: string;
 
     @JSONSchema({
@@ -56,7 +59,7 @@ export default class AuthController {
 
         await em.insert(userRegister);
 
-        logger.info(`user: ${JSON.stringify(userRegister, null, 4)}`);
+        logger.info(`new registered user: ${JSON.stringify(userRegister, null, 4)}`);
 
         return res.status(201).json({
             status: true,
@@ -65,7 +68,7 @@ export default class AuthController {
     }
 
     @Post('/login')
-    async login(@Body() body: AccountDto, @Res() res: Response) {
+    async createLogin(@Body() body: AccountDto, @Res() res: Response) {
         const em = AppContext.em;
         const logger = AppContext.logger;
 
@@ -76,25 +79,15 @@ export default class AuthController {
         });
 
         if (userResult === null) {
-            logger.info(`user not found: ${JSON.stringify(body.username, null, 4)}`);
+            logger.info(`user login not found: ${JSON.stringify(body.username, null, 4)}`);
 
             return res.status(422).json({
                 status: false,
-                message: 'Account not found',
+                message: 'Username or PIN incorrect',
             });
         }
 
-        let userPin: string | undefined = userResult!.pin;
-
-        if (typeof userPin === 'undefined') {
-            logger.error(`error login userId: ${userResult?._id}`);
-
-            return res.status(401).json({
-                status: false,
-                message: 'PIN not set',
-            });
-        }
-
+        let userPin: string = userResult!.pin;
         let comparePin: boolean = await compare(body.pin, userPin);
 
         if (!comparePin) {
@@ -120,6 +113,40 @@ export default class AuthController {
             authorization: {
                 type: 'bearer',
                 token: token,
+            },
+        });
+    }
+
+    @Get('/me')
+    @UseBefore(authMiddleware)
+    async me(@Req() req: UserInRequest, @Res() res: Response) {
+        const em = AppContext.em;
+        const logger = AppContext.logger;
+
+        const _id = new ObjectId(req.user._id);
+
+        const userResult: User | null = await em.findOne(User, {
+            _id: _id,
+        });
+
+        if (userResult === null) {
+            return res.status(422).json({
+                status: false,
+                message: 'User not found',
+            });
+        }
+
+        logger.info(`success retrive userId: ${userResult?._id}`);
+
+        return res.status(200).json({
+            status: true,
+            message: '',
+            data: {
+                id: userResult?._id,
+                username: userResult?.username,
+                phone: userResult?.phone,
+                createdAt: userResult?.createdAt,
+                updatedAt: userResult?.updatedAt,
             },
         });
     }
