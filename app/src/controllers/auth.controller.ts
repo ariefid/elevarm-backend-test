@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, validate } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 import { Body, Get, JsonController, Post, Req, Res, UseBefore } from 'routing-controllers';
 import { ObjectId } from '@mikro-orm/mongodb';
@@ -35,6 +35,19 @@ export default class AuthController {
         const em = AppContext.em;
         const logger = AppContext.logger;
 
+        validate(body).then(errors => {
+            if (errors.length > 0) {
+                logger.error(`body error: ${errors}`);
+
+                res.status(400).json({
+                    status: false,
+                    message: errors,
+                });
+
+                return;
+            }
+        });
+
         logger.info(`body: ${JSON.stringify(body, null, 4)}`);
 
         const userResult: User | null = await em.findOne(User, {
@@ -44,10 +57,12 @@ export default class AuthController {
         if (userResult !== null) {
             logger.error(`user already register: ${JSON.stringify(userResult, null, 4)}`);
 
-            return res.status(422).json({
+            res.status(422).json({
                 status: false,
                 message: 'Failed register account',
             });
+
+            return;
         }
 
         const hashPin = await hash(body!.pin);
@@ -57,20 +72,35 @@ export default class AuthController {
             pin: hashPin,
         });
 
-        await em.insert(userRegister);
+        await em.persistAndFlush([userRegister]);
 
         logger.info(`new registered user: ${JSON.stringify(userRegister, null, 4)}`);
 
-        return res.status(201).json({
+        res.status(201).json({
             status: true,
             message: 'Success register account',
         });
+
+        return;
     }
 
     @Post('/login')
-    async createLogin(@Body() body: AccountDto, @Res() res: Response) {
+    async login(@Body() body: AccountDto, @Res() res: Response) {
         const em = AppContext.em;
         const logger = AppContext.logger;
+
+        validate(body).then(errors => {
+            if (errors.length > 0) {
+                logger.error(`body error: ${errors}`);
+
+                res.status(400).json({
+                    status: false,
+                    message: errors,
+                });
+
+                return;
+            }
+        });
 
         logger.info(`body: ${JSON.stringify(body, null, 4)}`);
 
@@ -81,10 +111,12 @@ export default class AuthController {
         if (userResult === null) {
             logger.info(`user login not found: ${JSON.stringify(body.username, null, 4)}`);
 
-            return res.status(422).json({
+            res.status(422).json({
                 status: false,
                 message: 'Username or PIN incorrect',
             });
+
+            return;
         }
 
         let userPin: string = userResult!.pin;
@@ -93,17 +125,19 @@ export default class AuthController {
         if (!comparePin) {
             logger.error(`error login userId: ${userResult?._id}`);
 
-            return res.status(422).json({
+            res.status(422).json({
                 status: false,
                 message: 'Username or PIN incorrect',
             });
+
+            return;
         }
 
         const token = createToken(userResult as User);
 
         logger.info(`success login userId: ${userResult?._id}`);
 
-        return res.status(200).json({
+        res.status(200).json({
             status: true,
             message: 'Token created',
             data: {
@@ -115,6 +149,8 @@ export default class AuthController {
                 token: token,
             },
         });
+
+        return;
     }
 
     @Get('/me')
@@ -130,15 +166,17 @@ export default class AuthController {
         });
 
         if (userResult === null) {
-            return res.status(422).json({
+            res.status(422).json({
                 status: false,
                 message: 'User not found',
             });
+
+            return;
         }
 
         logger.info(`success retrive userId: ${userResult?._id}`);
 
-        return res.status(200).json({
+        res.status(200).json({
             status: true,
             message: '',
             data: {
@@ -149,5 +187,7 @@ export default class AuthController {
                 updatedAt: userResult?.updatedAt,
             },
         });
+
+        return;
     }
 }
