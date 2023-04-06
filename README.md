@@ -30,7 +30,7 @@ PIN disimpan kedalam database menggunakan bcrypt.
     1. _id: ObjectId
     2. userId: ObjectId
     3. serviceFrom: Enum
-    4. detail: string[]
+    4. detail: json
     5. createdAt: Date
     6. updateAt: Date
 
