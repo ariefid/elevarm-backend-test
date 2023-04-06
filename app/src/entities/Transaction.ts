@@ -1,16 +1,16 @@
-import { Entity, Property, PrimaryKey, Enum, ArrayType } from '@mikro-orm/core';
+import { Entity, Property, PrimaryKey, Enum, JsonType } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
 
 @Entity({ tableName: 'transactions' })
 export class Transaction {
-    constructor(userId: ObjectId, serviceFrom: TransactionServiceFrom, detail: string[]) {
+    constructor(userId: ObjectId, serviceFrom: TransactionServiceFrom, detail: {}) {
         this.userId = userId;
         this.serviceFrom = serviceFrom;
         this.detail = detail;
     }
 
     @PrimaryKey()
-    _id!: ObjectId;
+    _id?: ObjectId;
 
     @Property()
     userId!: ObjectId;
@@ -18,8 +18,8 @@ export class Transaction {
     @Enum(() => TransactionServiceFrom)
     serviceFrom!: TransactionServiceFrom;
 
-    @Property({ type: ArrayType })
-    detail!: string[];
+    @Property({ type: JsonType })
+    detail!: {};
 
     @Property({ nullable: true })
     createdAt?: Date = new Date();

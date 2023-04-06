@@ -3,14 +3,13 @@ import { ObjectId } from '@mikro-orm/mongodb';
 
 @Entity({ tableName: 'users' })
 export class User {
-    constructor(_id: ObjectId, username: string, pin: string) {
-        this._id = _id;
+    constructor(username: string, pin: string) {
         this.username = username;
         this.pin = pin;
     }
 
     @PrimaryKey()
-    _id!: ObjectId;
+    _id?: ObjectId;
 
     @Property()
     username!: string;
