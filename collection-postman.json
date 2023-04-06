@@ -12,32 +12,6 @@
                     "name": "User",
                     "item": [
                         {
-                            "name": "Login",
-                            "request": {
-                                "method": "POST",
-                                "url": {
-                                    "raw": "{{API_URL_LOCAL}}/api/auth/login",
-                                    "path": [
-                                        "api",
-                                        "auth",
-                                        "login"
-                                    ],
-                                    "host": [
-                                        "{{api_url_local}}"
-                                    ]
-                                },
-                                "body": {
-                                    "mode": "raw",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    },
-                                    "raw": "{\n  \"username\": \"ariefid\",\n  \"pin\": \"123456\"\n}"
-                                }
-                            }
-                        },
-                        {
                             "name": "Register",
                             "request": {
                                 "method": "POST",
@@ -59,7 +33,33 @@
                                             "language": "json"
                                         }
                                     },
-                                    "raw": "{\n  \"username\": \"ariefid\",\n  \"pin\": \"123456\"\n}"
+                                    "raw": "{\n  \"username\": \"userbaru\",\n  \"pin\": \"123456\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Login",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/auth/login",
+                                    "path": [
+                                        "api",
+                                        "auth",
+                                        "login"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"username\": \"userbaru\",\n  \"pin\": \"123456\"\n}"
                                 }
                             }
                         },
@@ -122,6 +122,34 @@
                             }
                         },
                         {
+                            "name": "Detail",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "{{API_URL_LOCAL}}/api/goride/detail/:id",
+                                    "path": [
+                                        "api",
+                                        "goride",
+                                        "detail",
+                                        ":id"
+                                    ],
+                                    "host": [
+                                        "{{api_url_local}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{JWT}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
                             "name": "Create",
                             "request": {
                                 "method": "POST",
@@ -143,7 +171,7 @@
                                             "language": "json"
                                         }
                                     },
-                                    "raw": "{\n  \"pickUpLocation\": \"-7.302260,112.739041\",\n  \"toLocation\": \"-7.297260,112.738375\",\n  \"price\": 20000\n}"
+                                    "raw": "{\n  \"pickUpLocation\": \"-7.302260,112.739041\",\n  \"toLocation\": \"-7.297260,112.738375\"\n}"
                                 },
                                 "auth": {
                                     "type": "bearer",
@@ -180,7 +208,7 @@
                                             "language": "json"
                                         }
                                     },
-                                    "raw": "{\n  \"pickUpLocation\": \"-7.302260,112.739041\",\n  \"toLocation\": \"-7.297260,112.738375\",\n  \"price\": 30000\n}"
+                                    "raw": "{\n  \"pickUpLocation\": \"-7.302260,112.739041\",\n  \"toLocation\": \"-7.297260,112.738375\"\n}"
                                 },
                                 "auth": {
                                     "type": "bearer",

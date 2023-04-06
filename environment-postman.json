@@ -1,8 +1,8 @@
 {
     "name": "ELEVARM",
-    "id": "ef2f216b-89fb-4d0b-a5d8-692f2a1f4cd7",
+    "id": "c644062d-317e-41cd-978f-ad26a24ad99e",
     "_postman_variable_scope": "environment",
-    "_postman_exported_at": "2023-04-04T08:18:01.828Z",
+    "_postman_exported_at": "2023-04-06T05:17:55.069Z",
     "_postman_exported_using": "Thunder Client",
     "values": [
         {
@@ -12,7 +12,7 @@
         },
         {
             "key": "JWT",
-            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbklkIjoiNjQyYmQ2ZjNjNDBlMGViYjE4M2I4YzIxIiwidG9rZW5Pd25lciI6IjY0MmI2NTI4NjAxYWU1MjliN2YxYTMwNiIsImlhdCI6MTY4MDU5NDY3NSwiZXhwIjoxNjgwNjAxODc1LCJzdWIiOiJmcm9tLWJhY2tlbmQifQ.9-r5uQvMPllfSt6MjbYz4MQ39dzqsudrJgdDu0DfPJw",
+            "value": "",
             "enabled": true
         }
     ]
