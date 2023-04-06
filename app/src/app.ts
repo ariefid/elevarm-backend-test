@@ -54,10 +54,12 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(morgan('combined'));
 
 app.get('/', (_req, res) => {
-    return res.status(200).json({
+    res.status(200).json({
         success: true,
         message: 'Application running!',
     });
+
+    return;
 })
 
 app.listen(port, () => {
